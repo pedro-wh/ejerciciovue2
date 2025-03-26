@@ -10,7 +10,7 @@
   "dependencies": {
     "django-vite-plugin": "^4.0.5",
     "vue": "^2.7.7",
-    "vuedraggable": "^2.24.3"
+    "vue-draggable-plus": "^0.6.0"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",

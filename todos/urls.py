@@ -1,4 +1,4 @@
-from books.views import index
+from todos.views import index
 from django.conf.urls import url
 
 
