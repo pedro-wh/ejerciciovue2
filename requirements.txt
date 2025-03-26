@@ -1,0 +1,7 @@
+asgiref==3.7.2
+certifi @ file:///croot/certifi_1671487769961/work/certifi
+Django==3.2.12
+django_vite_plugin==4.0.5
+pytz==2025.2
+sqlparse==0.4.4
+typing_extensions==4.7.1
