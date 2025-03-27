@@ -84,7 +84,7 @@ export default {
     async disableEdit(item) {
       item.editing = false;
     },
-    sayHi(columnId){
+    async sayHi(columnId){
       alert("Say hi")
     }
   }
