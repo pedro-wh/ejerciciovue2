@@ -7,3 +7,6 @@ def index(request):
 
 def htmx(request):
   return render(request, "todos/htmx.html")
+
+def htmx_replace(request):
+  return render(request, "todos/htmx_replace.html")

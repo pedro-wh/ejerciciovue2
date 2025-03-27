@@ -5,6 +5,9 @@
 
 {%block content %}
 <h1>Fantastic HTMX</h1>
+<button hx-get="/todos/htmx_replace" hx-target="#replaceMe" hx-swap="afterend" class="btn btn-primary">Cargar</button>
+<div id="replaceMe">
+</div>
 {% endblock %}
 
 {%block scripts %}
