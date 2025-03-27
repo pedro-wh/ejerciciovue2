@@ -11,7 +11,7 @@
                 <h5 class="card-title m-0">Todo</h5>
                 <i class="fa-solid fa-ellipsis cursor p-2"></i>
               </div>
-              <VueDraggable @add="sayHi(column.id)" v-model="column.todos" animation="150" ghostClass="ghost" group="people">
+              <VueDraggable @add="moveTodo($event, column.id)" v-model="column.todos" animation="150" ghostClass="ghost" group="people">
                 <div v-for="item in column.todos" :key="item.id" class="card p-2 mb-3 coolhoverpedrito">
                   <span v-if="!item.editing" @dblclick="enableEdit(item)">
                     {{ item.name }}
@@ -84,8 +84,12 @@ export default {
     async disableEdit(item) {
       item.editing = false;
     },
-    async sayHi(columnId){
-      alert("Say hi")
+    async moveTodo(event, columnId){
+      // debugger
+      // const todo = this.columns.flatMap(x => x.todos).find(y => y.id === event.data.id)
+      // if(todo){
+      //   todo.idColumn = columnId
+      // }
     }
   }
 }
