@@ -95,8 +95,12 @@ export default {
         //Aqui hacer un update move
       });
     },
-    async deleteTodo() {
-      
+    async deleteTodo(todoId) {
+      //Aqui hacer un delete
+      const column = this.columns.find(x => x.todos.find(y => y.id === todoId));
+      if (column) {
+        column.todos = column.todos.filter(x => x.id !== todoId);
+      }
     }
   }
 }
