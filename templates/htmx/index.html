@@ -23,6 +23,7 @@
               <span>
                 {{ item.name }}
               </span>
+              <button hx-delete="/htmx/htmx_delete/{{item.id}}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="btn btn-light p-1 py-0 supertacha"><i class="fa-solid fa-xmark"></i></button>
             </div>
             {% endfor %}
           </div>
@@ -36,4 +37,33 @@
   </div>
 </div>
 
+{% endblock %}
+
+{%block scripts %}
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% endblock %}
+
+
+{%block styles %}
+<style>
+  .coolhoverpedrito {
+    position: relative;
+  }
+  
+  .coolhoverpedrito:hover .supertacha {
+    visibility: visible;
+    z-index: 4;
+    opacity: 0.2;
+  }
+  
+  .supertacha {
+    position: absolute;
+    right: 10px;
+    visibility: hidden;
+  }
+  
+  .ghost {
+    opacity: 0.2;
+  }
+  </style>
 {% endblock %}
