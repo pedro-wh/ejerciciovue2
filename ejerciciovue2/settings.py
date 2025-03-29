@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "vuecdn",
     "landing",
     "jquery",
-    "htmx"
+    "htmx",
+    "api"
 ]
 
 MIDDLEWARE = [

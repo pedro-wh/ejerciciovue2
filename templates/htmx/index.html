@@ -4,5 +4,36 @@
 {%block title %} HTMX {% endblock %}
 
 {%block content %}
-<h1>HTMX</h1>
+<h1>htmx</h1>
+
+<div class="px-5">
+  <div class="row">
+
+    {% for column in columns %}
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="card-title m-0">Todo</h5>
+            <i class="fa-solid fa-ellipsis cursor p-2"></i>
+          </div>
+          <div>
+            {% for item in column.todos.all %}
+            <div class="card p-2 mb-3 coolhoverpedrito">
+              <span>
+                {{ item.name }}
+              </span>
+            </div>
+            {% endfor %}
+          </div>
+          <button type="button" class="btn btn-light"><i class="fa-solid fa-plus me-1"></i> Agregar nueva tarea</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+  </div>
+</div>
+
 {% endblock %}
