@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todos/', include('todos.urls')),
+    url(r'^', include ('landing.urls')),
+    path('vue/', include('vue.urls')),
+    path('vuecdn/', include('vuecdn.urls')),
+    path('htmx/', include('htmx.urls')),
+    path('jquery/', include('jquery.urls')),
 ]

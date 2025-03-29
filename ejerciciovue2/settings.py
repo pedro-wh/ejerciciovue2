@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_vite_plugin',
-    "todos"
+    "vue",
+    "vuecdn",
+    "landing",
+    "jquery",
+    "htmx"
 ]
 
 MIDDLEWARE = [
