@@ -17,17 +17,17 @@
             <h5 class="card-title m-0">Todo</h5>
             <i class="fa-solid fa-ellipsis cursor p-2"></i>
           </div>
-          <div>
+          <div class="htmxcreateTodo-{{ column.id }}">
             {% for item in column.todos.all %}
-            <div class="card p-2 mb-3 coolhoverpedrito">
-              <span>
+            <div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}">
+              <span hx-trigger="dblclick" hx-get="/htmx/htmx_editTodo/{{item.id}}/" hx-swap="outerHTML">
                 {{ item.name }}
               </span>
-              <button hx-delete="/htmx/htmx_delete/{{item.id}}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="btn btn-light p-1 py-0 supertacha"><i class="fa-solid fa-xmark"></i></button>
+              <button hx-delete="/htmx/htmx_delete/{{item.id}}/" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-target=".todo{{ item.id }}" hx-swap="outerHTML" class="btn btn-light p-1 py-0 supertacha"><i class="fa-solid fa-xmark"></i></button>
             </div>
             {% endfor %}
           </div>
-          <button type="button" class="btn btn-light"><i class="fa-solid fa-plus me-1"></i> Agregar nueva tarea</button>
+          <button hx-post="/htmx/htmx_createTodo/{{column.id}}/" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-target=".htmxcreateTodo-{{ column.id }}" hx-swap="beforeend" type="button" class="btn btn-light"><i class="fa-solid fa-plus me-1"></i> Agregar nueva tarea</button>
         </div>
       </div>
     </div>

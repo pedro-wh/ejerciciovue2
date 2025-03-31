@@ -1,0 +1,2 @@
+<input type="text" autofocus hx-trigger="blur, keyup[key=='Enter']" hx-post="/htmx/htmx_editTodo/{{item.id}}/" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-swap="outerHTML" name="nombredeltodo" value="{{item.name}}" style="z-index: 9;" />
+

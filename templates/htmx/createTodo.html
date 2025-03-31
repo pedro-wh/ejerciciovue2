@@ -1,0 +1,6 @@
+<div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}">
+  <span hx-trigger="dblclick" hx-get="/htmx/htmx_editTodo/{{item.id}}/" hx-swap="outerHTML">
+    {{ item.name }}
+  </span>
+  <button hx-delete="/htmx/htmx_delete/{{item.id}}/" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-target=".todo{{ item.id }}" hx-swap="outerHTML" class="btn btn-light p-1 py-0 supertacha"><i class="fa-solid fa-xmark"></i></button>
+</div>

@@ -15,6 +15,21 @@ def htmx_delete(request, id):
   if request.method == "DELETE":
     todo = get_object_or_404(Todo, id=id)
     todo.delete()
-    return HttpResponse(status=204)
-  
+    return HttpResponse("")
   return HttpResponse(status=405)
+
+def htmx_createTodo(request, id):
+  if request.method == "POST":
+    todo = Todo(column_id=id, name="Tarea Nueva")
+    todo.save()
+    context = {"item": todo}
+    return render(request, "htmx/createTodo.html", context)
+  
+def htmx_editTodo(request, id):
+  todo = Todo.objects.get(id=id)
+  context = {"item": todo}
+  if request.method == "POST":
+    todo.name = request.POST["nombredeltodo"]
+    todo.save()
+    return render(request, "htmx/editTodoResponse.html", context)
+  return render(request, "htmx/editTodo.html", context)
