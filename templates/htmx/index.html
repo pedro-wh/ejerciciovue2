@@ -6,7 +6,7 @@
 {%block content %}
 <h1>htmx</h1>
 
-<div class="px-5">
+<div id="replaceme" class="px-5">
   <div class="row">
 
     {% for column in columns %}
@@ -17,9 +17,9 @@
             <h5 class="card-title m-0">Todo</h5>
             <i class="fa-solid fa-ellipsis cursor p-2"></i>
           </div>
-          <div class="htmxcreateTodo-{{ column.id }}">
+          <div class="htmxcreateTodo-{{ column.id }}" data-columnid="{{column.id}}">
             {% for item in column.todos.all %}
-            <div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}">
+            <div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}" data-todoid="{{item.id}}">
               <span hx-trigger="dblclick" hx-get="/htmx/htmx_editTodo/{{item.id}}/" hx-swap="outerHTML">
                 {{ item.name }}
               </span>
@@ -41,6 +41,35 @@
 
 {%block scripts %}
 <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script>
+
+   function init(){
+   {% for column in columns %}
+   new Sortable(document.querySelector(".htmxcreateTodo-{{ column.id }}"), {
+      group: 'shared', // set both lists to same group
+      animation: 150,
+      ghostClass: "ghost",
+
+      // Event when you move an item in the list or between lists
+      onEnd: function (evt) {
+        const todoid = evt.item.dataset.todoid
+        const columnid = evt.to.dataset.columnid
+        htmx.ajax('GET', `/htmx/htmx_moveTodo/${todoid}/${columnid}/`, {target:'#replaceme', swap:'outerHTML', select: "#replaceme"})
+      },
+   });
+   {% endfor %}
+  }
+
+  init()
+
+  document.body.addEventListener("htmx:afterSwap", function(event) {
+    if (event.target.id === "replaceme") {
+        init()
+    }
+});
+
+</script>
 {% endblock %}
 
 

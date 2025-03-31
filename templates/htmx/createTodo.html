@@ -1,4 +1,4 @@
-<div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}">
+<div class="card p-2 mb-3 coolhoverpedrito todo{{ item.id }}" data-todoid="{{item.id}}">
   <span hx-trigger="dblclick" hx-get="/htmx/htmx_editTodo/{{item.id}}/" hx-swap="outerHTML">
     {{ item.name }}
   </span>

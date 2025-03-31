@@ -33,3 +33,12 @@ def htmx_editTodo(request, id):
     todo.save()
     return render(request, "htmx/editTodoResponse.html", context)
   return render(request, "htmx/editTodo.html", context)
+
+def htmx_moveTodo(request, idTodo, idColumn):
+  todo = Todo.objects.get(id=idTodo)
+  todo.column_id = idColumn
+  todo.save()
+
+  columns = Column.objects.prefetch_related("todos").all()
+  context = {"columns": columns}
+  return render(request, "htmx/index.html", context)
