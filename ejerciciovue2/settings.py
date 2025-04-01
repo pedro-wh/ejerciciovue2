@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "landing",
     "jquery",
     "htmx",
-    "api"
+    "api",
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
