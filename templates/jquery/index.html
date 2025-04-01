@@ -18,17 +18,17 @@
             <h5 class="card-title m-0">Todo</h5>
             <i class="fa-solid fa-ellipsis cursor p-2"></i>
           </div>
-          <div>
+          <div class="sortabletodo-{{ column.id }}" data-columnid="{{column.id}}">
             {% for item in column.todos.all %}
-            <div class="card p-2 mb-3 coolhoverpedrito">
+            <div class="card p-2 mb-3 coolhoverpedrito" data-todoid="{{item.id}}">
               <span>
                 {{ item.name }}
               </span>
-              <button class="btn btn-light p-1 py-0 supertacha"><i class="fa-solid fa-xmark"></i></button>
+              <button class="btn btn-light p-1 py-0 supertacha" data-todoid="{{item.id}}"><i class="fa-solid fa-xmark"></i></button>
             </div>
             {% endfor %}
           </div>
-          <button type="button" class="btn btn-light"><i class="fa-solid fa-plus me-1"></i> Agregar nueva tarea</button>
+          <button type="button" class="btn btn-light btnjquerycrear" data-columnid="{{column.id}}"><i class="fa-solid fa-plus me-1"></i> Agregar nueva tarea</button>
         </div>
       </div>
     </div>
@@ -43,6 +43,45 @@
 {%block scripts %}
 <script src="https://www.unpkg.com/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+
+<script>
+
+
+{% for column in columns %}
+   new Sortable(document.querySelector(".sortabletodo-{{ column.id }}"), {
+      group: 'shared', // set both lists to same group
+      animation: 150,
+      ghostClass: "ghost",
+
+      // Event when you move an item in the list or between lists
+      onEnd: async function (evt) {
+        // Si es entre listas hacer un post para la modificación
+        if(evt.to != evt.from) {
+          const todoid = evt.item.dataset.todoid
+          const columnid = evt.to.dataset.columnid
+          console.log(todoid)
+          console.log(columnid)
+          await $.get(`/jquery/jquery_moveTodo/${todoid}/${columnid}/`)
+        }
+      },
+   });
+{% endfor %}
+
+
+$(".supertacha").click(async function(e){
+  await $.ajax({ url: `/jquery/jquery_delete/${e.currentTarget.dataset.todoid}/`, type: 'DELETE', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
+  const cooldiv = e.target.closest( ".coolhoverpedrito" )
+  cooldiv.remove()
+});
+
+
+$(".btnjquerycrear").click(async function(e){
+  const result = await $.ajax({ url: `/jquery/jquery_createTodo/${e.currentTarget.dataset.columnid}/`, type: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
+  debugger
+});
+
+</script>
 {% endblock %}
 
 {%block styles %}
