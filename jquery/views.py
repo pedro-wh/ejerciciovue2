@@ -15,13 +15,22 @@ def jquery_delete(request, id):
     todo = get_object_or_404(Todo, id=id)
     todo.delete()
     return HttpResponse(status=200)
-  return HttpResponse(status=200)
+  return HttpResponse(status=405)
 
 def jquery_createTodo(request, id):
   if request.method == "POST":
     todo = Todo(column_id=id, name="Tarea Nueva")
     todo.save()
     return JsonResponse({"id": todo.id, "name": todo.name, "column_id": todo.column_id})
+  return HttpResponse(status=405)
+
+def jquery_editTodo(request, id):
+  if request.method == "POST":
+    todo = Todo.objects.get(id=id)
+    todo.name = request.POST["nombredeltodo"]
+    todo.save()
+    return HttpResponse(status=200)
+  return HttpResponse(status=405)
 
 
 def jquery_moveTodo(request, idTodo, idColumn):

@@ -21,9 +21,10 @@
           <div class="sortabletodo-{{ column.id }}" data-columnid="{{column.id}}">
             {% for item in column.todos.all %}
             <div class="card p-2 mb-3 coolhoverpedrito" data-todoid="{{item.id}}">
-              <span>
+              <span class="superspanjquerypedro">
                 {{ item.name }}
               </span>
+              <input type="text" value="{{item.name}}" data-todoid="{{item.id}}" class="superinputjquerypedro" style="z-index: 9; display: none;" />
               <button class="btn btn-light p-1 py-0 supertacha" data-todoid="{{item.id}}"><i class="fa-solid fa-xmark"></i></button>
             </div>
             {% endfor %}
@@ -56,12 +57,9 @@
 
       // Event when you move an item in the list or between lists
       onEnd: async function (evt) {
-        // Si es entre listas hacer un post para la modificación
         if(evt.to != evt.from) {
           const todoid = evt.item.dataset.todoid
           const columnid = evt.to.dataset.columnid
-          console.log(todoid)
-          console.log(columnid)
           await $.get(`/jquery/jquery_moveTodo/${todoid}/${columnid}/`)
         }
       },
@@ -69,16 +67,51 @@
 {% endfor %}
 
 
-$(".supertacha").click(async function(e){
+$(document).on("click", ".supertacha", async function(e) {
   await $.ajax({ url: `/jquery/jquery_delete/${e.currentTarget.dataset.todoid}/`, type: 'DELETE', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
   const cooldiv = e.target.closest( ".coolhoverpedrito" )
   cooldiv.remove()
 });
 
 
-$(".btnjquerycrear").click(async function(e){
-  const result = await $.ajax({ url: `/jquery/jquery_createTodo/${e.currentTarget.dataset.columnid}/`, type: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
-  debugger
+
+$(document).on("dblclick", ".superspanjquerypedro", async function(e) {
+  const input = $(this).siblings(".superinputjquerypedro");
+  $(this).hide()
+  $(input).show()
+  input.focus()
+});
+
+
+
+$(document).on("keyup blur", ".superinputjquerypedro", async function(e) {
+  if (e.type === 'blur' || e.which === 13){
+    await $.ajax({
+      url: `/jquery/jquery_editTodo/${e.currentTarget.dataset.todoid}/`,
+      type: 'POST',
+      data: {nombredeltodo: e.target.value},
+      headers: {'X-CSRFToken': '{{ csrf_token }}'}
+    });
+    const span = $(this).siblings(".superspanjquerypedro");
+    span[0].innerHTML = e.target.value;
+    $(this).hide()
+    $(span).show()
+  }
+});
+
+
+$(document).on("click", ".btnjquerycrear", async function(e) {
+  const item = await $.ajax({ url: `/jquery/jquery_createTodo/${e.currentTarget.dataset.columnid}/`, type: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'}});
+  const card = `
+  <div class="card p-2 mb-3 coolhoverpedrito" data-todoid="${item.id}">
+    <span class="superspanjquerypedro">
+      ${item.name}
+    </span>
+    <input type="text" value="${item.name}" data-todoid="${item.id}" class="superinputjquerypedro" style="z-index: 9; display: none;" />
+    <button class="btn btn-light p-1 py-0 supertacha" data-todoid="${item.id}"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  `
+  $(`.sortabletodo-${e.currentTarget.dataset.columnid}`).append(card);
 });
 
 </script>
