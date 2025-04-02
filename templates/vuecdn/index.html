@@ -5,7 +5,7 @@
 
 {%block content %}
 <h1>Vue CDN</h1>
-<div id="app">
+<div id="app" v-cloak>
   <div class="px-5">
     <div class="row">
 
@@ -128,5 +128,6 @@ const vm = app.mount("#app")
   .ghost {
     opacity: 0.2;
   }
+  [v-cloak] { display: none; }
 </style>
 {% endblock %}
