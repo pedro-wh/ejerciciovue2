@@ -8,7 +8,8 @@
   },
   "type": "module",
   "dependencies": {
-    "django-vite-plugin": "^4.0.5",
+    "axios": "^1.8.4",
+    "django-vite-plugin": "4.0.5",
     "vue": "^2.7.7",
     "vue-draggable-plus": "^0.6.0"
   },

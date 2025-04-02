@@ -32,51 +32,30 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { VueDraggable } from 'vue-draggable-plus'
 
 export default {
   components: {
     VueDraggable
   },
+  async mounted(){
+    const result = await axios.get("/api/columns/")
+    this.columns = result.data
+  },
   data() {
     return {
       temporaryFinalId: 99,
-      columns: [
-        {
-          id: 1,
-          todos: [
-            {
-              id: 8,
-              idColumn: 1,
-              name: "Tarea 1",
-            },
-            {
-              id: 9,
-              idColumn: 1,
-              name: "Tarea 2"
-            }
-          ]
-        },
-        {
-          id: 2,
-          todos: [
-            {
-              id: 10,
-              idColumn: 2,
-              name: "Tarea 3"
-            }
-          ]
-        }
-      ]
+      columns: []
     }
   },
   methods: {
     async addTodo(columnId) {
-      const newTodo = { id: this.temporaryFinalId++, name: "Tarea Nueva", idColumn: columnId }
-      //Aqui hacer un post
+      const newTodo = { name: "Tarea Nueva", idColumn: columnId }
+      const result = await axios.post("/api/todos/", newTodo)
       const column = this.columns.find(x => x.id === columnId)
       if (column) {
-        column.todos.push(newTodo)
+        column.todos.push(result.data)
       }
     },
     enableEdit(item) {
@@ -84,19 +63,19 @@ export default {
     },
     async disableEdit(item) {
       item.editing = false;
-      //Aqui hacer un update
+      await axios.put(`/api/todos/${item.id}/`, item)
     },
     async moveTodo(event, columnId) {
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
         const todo = this.columns.flatMap(x => x.todos).find(y => y.id === event.data.id)
         if (todo) {
           todo.idColumn = columnId
         }
-        //Aqui hacer un update move
+        await axios.put(`/api/todos/${todo.id}/`, todo)
       });
     },
     async deleteTodo(todoId) {
-      //Aqui hacer un delete
+      await axios.delete(`/api/todos/${todoId}/`)
       const column = this.columns.find(x => x.todos.find(y => y.id === todoId));
       if (column) {
         column.todos = column.todos.filter(x => x.id !== todoId);

@@ -24,4 +24,5 @@ urlpatterns = [
     path('vuecdn/', include('vuecdn.urls')),
     path('htmx/', include('htmx.urls')),
     path('jquery/', include('jquery.urls')),
+    path('api/', include('api.urls')),
 ]
