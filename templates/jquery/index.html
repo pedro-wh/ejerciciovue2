@@ -85,7 +85,7 @@ $(document).on("dblclick", ".superspanjquerypedro", async function(e) {
 
 
 $(document).on("keyup blur", ".superinputjquerypedro", async function(e) {
-  if (e.type === 'blur' || e.which === 13){
+  if (e.type === 'focusout' || e.which === 13){
     await $.ajax({
       url: `/jquery/jquery_editTodo/${e.currentTarget.dataset.todoid}/`,
       type: 'POST',
