@@ -1,3 +1,5 @@
-# ui
+# ejerciciovue2
 
-Temporal
+```
+docker compose up
+```
